@@ -7,7 +7,7 @@ set -euo pipefail
 GATEWAY="${GATEWAY_URL:-http://localhost:3080}"
 RPS="${1:-5}"
 DURATION="${2:-60}"
-INTERVAL=$(echo "scale=4; 1/$RPS" | bc)
+INTERVAL=$(awk "BEGIN {print 1/$RPS}")
 
 echo "QuickTicket Load Generator"
 echo "Target: $GATEWAY | RPS: $RPS | Duration: ${DURATION}s"
@@ -63,7 +63,7 @@ while true; do
     if [ $((ELAPSED % 10)) -eq 0 ] && [ "$ELAPSED" -gt 0 ]; then
         TOTAL=$((SUCCESS + FAIL))
         if [ "$TOTAL" -gt 0 ]; then
-            ERROR_RATE=$(echo "scale=1; $FAIL * 100 / $TOTAL" | bc)
+            ERROR_RATE=$(( FAIL * 100 / TOTAL ))
             echo "[${ELAPSED}s] requests=$TOTAL success=$SUCCESS fail=$FAIL error_rate=${ERROR_RATE}%"
         fi
     fi
@@ -73,7 +73,7 @@ done
 
 TOTAL=$((SUCCESS + FAIL))
 if [ "$TOTAL" -gt 0 ]; then
-    ERROR_RATE=$(echo "scale=1; $FAIL * 100 / $TOTAL" | bc)
+    ERROR_RATE=$(( FAIL * 100 / TOTAL ))
 else
     ERROR_RATE="0"
 fi
