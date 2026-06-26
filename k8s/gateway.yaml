@@ -20,7 +20,7 @@ spec:
         - name: ghcr-secret
       containers:
         - name: gateway
-          image: ghcr.io/deldore/quickticket-gateway:main
+          image: ghcr.io/deldore/quickticket-gateway:f2b83a901a5c5addea3b77a2fd624bf52cf8565e
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
