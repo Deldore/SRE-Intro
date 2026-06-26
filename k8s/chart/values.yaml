@@ -1,11 +1,16 @@
+global:
+  imagePullSecrets:
+    - ghcr-secret
+
 gateway:
   replicas: 1
-  image: quickticket-gateway:v1
+  image: ghcr.io/deldore/quickticket-gateway:main
+  version: "v2"
   timeoutMs: "5000"
 
 events:
   replicas: 1
-  image: quickticket-events:v1
+  image: ghcr.io/deldore/quickticket-events:main
   db:
     host: postgres
     port: 5432
@@ -21,6 +26,6 @@ events:
 
 payments:
   replicas: 1
-  image: quickticket-payments:v1
+  image: ghcr.io/deldore/quickticket-payments:main
   failureRate: "0.0"
   latencyMs: "0"

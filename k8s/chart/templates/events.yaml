@@ -12,10 +12,14 @@ spec:
       labels:
         app: events
     spec:
+      imagePullSecrets:
+{{- range .Values.global.imagePullSecrets }}
+        - name: {{ . | quote }}
+{{- end }}
       containers:
         - name: events
           image: {{ .Values.events.image | quote }}
-          imagePullPolicy: Never
+          imagePullPolicy: Always
           ports:
             - containerPort: 8081
           env:
