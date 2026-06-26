@@ -2,6 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: gateway
+  labels:
+    app: gateway
+    version: {{ .Values.gateway.version | quote }}
 spec:
   replicas: {{ .Values.gateway.replicas }}
   selector:
@@ -11,11 +14,16 @@ spec:
     metadata:
       labels:
         app: gateway
+        version: {{ .Values.gateway.version | quote }}
     spec:
+      imagePullSecrets:
+{{- range .Values.global.imagePullSecrets }}
+        - name: {{ . | quote }}
+{{- end }}
       containers:
         - name: gateway
           image: {{ .Values.gateway.image | quote }}
-          imagePullPolicy: Never
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           env:

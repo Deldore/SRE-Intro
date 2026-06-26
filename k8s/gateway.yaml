@@ -2,6 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: gateway
+  labels:
+    app: gateway
+    version: "v2"
 spec:
   replicas: 1
   selector:
@@ -11,11 +14,14 @@ spec:
     metadata:
       labels:
         app: gateway
+        version: "v2"
     spec:
+      imagePullSecrets:
+        - name: ghcr-secret
       containers:
         - name: gateway
-          image: quickticket-gateway:v1
-          imagePullPolicy: Never
+          image: ghcr.io/deldore/quickticket-gateway:main
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           env:
