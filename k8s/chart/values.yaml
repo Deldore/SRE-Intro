@@ -4,13 +4,13 @@ global:
 
 gateway:
   replicas: 1
-  image: ghcr.io/deldore/quickticket-gateway:e1f66611ec19ecdca827d786e1011bf94e15dbd1
+  image: ghcr.io/deldore/quickticket-gateway:15fd830bd12d01c4247f70ccfb119c9c6ee608aa
   version: "v2"
   timeoutMs: "5000"
 
 events:
   replicas: 1
-  image: ghcr.io/deldore/quickticket-events:e1f66611ec19ecdca827d786e1011bf94e15dbd1
+  image: ghcr.io/deldore/quickticket-events:15fd830bd12d01c4247f70ccfb119c9c6ee608aa
   db:
     host: postgres
     port: 5432
@@ -26,6 +26,6 @@ events:
 
 payments:
   replicas: 1
-  image: ghcr.io/deldore/quickticket-payments:e1f66611ec19ecdca827d786e1011bf94e15dbd1
+  image: ghcr.io/deldore/quickticket-payments:15fd830bd12d01c4247f70ccfb119c9c6ee608aa
   failureRate: "0.0"
   latencyMs: "0"
