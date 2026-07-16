@@ -41,6 +41,14 @@ spec:
         app: gateway
         version: "v2"
     spec:
+      terminationGracePeriodSeconds: 40
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app: gateway
       imagePullSecrets:
         - name: ghcr-secret
       containers:
@@ -49,6 +57,10 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
+          lifecycle:
+            preStop:
+              exec:
+                command: ["sh", "-c", "sleep 10"]
           env:
             - name: EVENTS_URL
               value: "http://events:8081"
@@ -83,8 +95,8 @@ spec:
             httpGet:
               path: /health
               port: 8080
-            periodSeconds: 5
-            failureThreshold: 2
+            periodSeconds: 2
+            failureThreshold: 1
           resources:
             requests:
               cpu: 50m
